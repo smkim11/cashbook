@@ -29,7 +29,7 @@
 </head>
 <body>
 	<h1>로그인</h1>
-	<form action="/cashbook/login/loginAction.jsp">
+	<form action="/cashbook/login/loginAction.jsp" method="post">
 	<table class="w-75 table table-striped table-bordered table-hover">
 		<tr>
 			<th>아이디</th>
