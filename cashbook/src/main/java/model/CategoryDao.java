@@ -67,17 +67,32 @@ public class CategoryDao {
 		return total;
 	}
 	
-	// 수입,지출 목록 추가
+	// 수입,지출 목록 추가(kind와 title이 존재하지 않으면)
 	public void insertCategory(Category c) throws ClassNotFoundException, SQLException {
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3307/cashbook", "root", "java1234");
-		String sql = "insert into category(kind, title) values(?,?)";
+		conn.setAutoCommit(false);
+		
+		String sql = "select count(*) cnt from category WHERE kind=? AND title= ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, c.getKind());
 		stmt.setString(2, c.getTitle());
+		ResultSet rs = stmt.executeQuery();
+		rs.next();
+		int row = rs.getInt("cnt");
+		if(row==0) {
+			String sql2 = "insert into category(kind, title) values(?,?)";
+			PreparedStatement stmt2 = conn.prepareStatement(sql2);
+			stmt2.setString(1, c.getKind());
+			stmt2.setString(2, c.getTitle());
+			
+			stmt2.executeUpdate();
+			System.out.println("추가 성공");
+		}else {
+			System.out.println("이미 등록되어 있습니다");
+		}
 		
-		stmt.executeUpdate();
-		
+		conn.commit();
 		conn.close();
 	}
 	
@@ -113,7 +128,7 @@ public class CategoryDao {
 			PreparedStatement stmt2 = conn.prepareStatement(sql2);
 			stmt2.setInt(1, cnum);
 			stmt2.executeUpdate();
-			System.out.println("삭제 성공.");
+			System.out.println("삭제 성공");
 		}
 		else {
 			System.out.println("cash테이블에 값이 있습니다.");
