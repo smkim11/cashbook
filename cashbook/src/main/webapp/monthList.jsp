@@ -3,6 +3,12 @@
 <%@ page import="model.*"%>
 <%@ page import="dto.*"%>
 <%
+	String ID = (String)(session.getAttribute("ID"));
+	if(ID == null){ // 로그아웃 상태 일때
+		response.sendRedirect("/cashbook/index.jsp");
+		return;
+	}
+	
 	Calendar c = Calendar.getInstance();
 	
 	if(request.getParameter("targetMonth") != null){
@@ -69,11 +75,11 @@
 											<%
 												if(m.get("kind").equals("지출")){
 											%>
-													<span style="color:red"><%=m.get("memo")%><br><%=m.get("amount") %>원</span><br>
+													<a href="/cashbook/cashOne.jsp?cashDate=<%=m.get("cashDate")%>"><span style="color:red"><%=m.get("title")%><br><%=m.get("amount") %>원</span><br></a>
 											<% 
 												}else{
 											%>
-													<span style="color:blue"><%=m.get("memo")%><br><%=m.get("amount") %>원</span><br>
+													<a href="/cashbook/cashOne.jsp?cashDate=<%=m.get("cashDate")%>"><span style="color:blue"><%=m.get("title")%><br><%=m.get("amount") %>원</span><br></a>
 											<% 
 												}
 											%>

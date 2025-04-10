@@ -10,7 +10,7 @@ public class CashDao {
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3307/cashbook", "root", "java1234");
 		String sql = "SELECT c.cash_no cashNO, c.category_no categoryNo, c.cash_date cashDate, "
-					+"c.amount, c.memo, c.color, c.createdate, c.updatedate, ct.kind "
+					+"c.amount, c.memo, c.color, c.createdate, c.updatedate, ct.kind, ct.title "
 					+"FROM cash c INNER JOIN category ct ON c.category_no = ct.category_no "
 					+"where YEAR(c.cash_date)=? and MONTH(c.cash_date)=?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
@@ -30,7 +30,7 @@ public class CashDao {
 			m.put("createdate", rs.getString("createdate"));
 			m.put("updatedate", rs.getString("updatedate"));
 			m.put("kind", rs.getString("kind"));
-			
+			m.put("title", rs.getString("title"));
 			
 			list.add(m);
 		}
