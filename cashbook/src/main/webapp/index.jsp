@@ -1,10 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 	String ID = (String)(session.getAttribute("ID"));
-	if(ID != null){ // 로그인 상태 일때
-		response.sendRedirect("/cashbook/index.jsp");
-		return;
-	}
 %>
 <!DOCTYPE html>
 <html>
@@ -28,20 +24,24 @@
 <title></title>
 </head>
 <body>
-	<h1>로그인</h1>
-	<form action="/cashbook/login/loginAction.jsp" method="post">
+<%
+	if(ID == null){
+%>
+		<a href="/cashbook/login/loginForm.jsp">로그인</a>
+<% 
+	}else{
+%>
+		<%=ID %>님 환영합니다.
+		<a href="/cashbook/login/logout.jsp">로그아웃</a>
+<% 
+	}
+%><hr>
+<h1>메인 페이지</h1>
 	<table class="w-75 table table-striped table-bordered table-hover">
 		<tr>
-			<th>아이디</th>
-			<td><input type="text" name="id"></td>
-		</tr>
-		<tr>
-			<th>비밀번호</th>
-			<td><input type="password" name="pw"></td>
+			<th>1.</th>
+			<td><a href="/cashbook/category/categoryList.jsp">수입 지출 리스트</a></td>
 		</tr>
 	</table>
-	<a href="/cashbook/login/updateAdminPwForm.jsp">비밀번호 변경</a><br>
-	<button type="submit">로그인</button>	
-	</form>
 </body>
 </html>

@@ -12,7 +12,7 @@
 		session.setAttribute("ID",a.getAdminId());
 		session.setAttribute("PW",a.getAdminPw());
 		
-		response.sendRedirect("/cashbook/categoryList.jsp");
+		response.sendRedirect("/cashbook/index.jsp");
 	}
 	else{ // 로그인 실패 시
 		response.sendRedirect("/cashbook/login/loginForm.jsp");
