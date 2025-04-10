@@ -42,6 +42,10 @@
 			<th>1.</th>
 			<td><a href="/cashbook/category/categoryList.jsp">수입 지출 리스트</a></td>
 		</tr>
+		<tr>
+			<th>2.</th>
+			<td><a href="/cashbook/monthList.jsp">달력형 리스트</a></td>
+		</tr>
 	</table>
 </body>
 </html>
