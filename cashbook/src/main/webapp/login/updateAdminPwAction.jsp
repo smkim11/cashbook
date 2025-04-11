@@ -17,7 +17,7 @@
 			response.sendRedirect("/cashbook/login/loginForm.jsp");
 		}
 		else{
-			System.out.println("아이디 비밀번호 확인");
+			System.out.println("기존 비밀번호 확인");
 			response.sendRedirect("/cashbook/login/updateAdminPwForm.jsp");
 		}
 	}
