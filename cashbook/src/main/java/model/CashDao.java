@@ -44,7 +44,7 @@ public class CashDao {
 	public ArrayList<HashMap<String,Object>> selectCashByDate(String cashDate) throws Exception {
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3307/cashbook", "root", "java1234");
-		String sql = "SELECT ct.kind, ct.title, c.amount, c.memo "
+		String sql = "SELECT ct.kind, ct.title, c.amount, c.memo, c.color "
 					+ "FROM cash c INNER JOIN category ct ON c.category_no = ct.category_no "
 					+ "WHERE c.cash_date LIKE ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
@@ -58,6 +58,7 @@ public class CashDao {
 			map.put("title", rs.getString("title"));
 			map.put("amount", rs.getInt("amount"));
 			map.put("memo", rs.getString("memo"));
+			map.put("color", rs.getString("color"));
 			
 			list.add(map);
 		}

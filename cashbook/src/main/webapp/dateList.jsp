@@ -31,10 +31,10 @@
 				for(HashMap<String,Object> m : list){
 			%>
 					<tr>
-						<td><%=m.get("kind") %></td>
-						<td><%=m.get("title") %></td>
-						<td><%=m.get("amount") %></td>
-						<td><%=m.get("memo") %></td>
+						<td style='color:<%=m.get("color")%>'><%=m.get("kind") %></td>
+						<td style='color:<%=m.get("color")%>'><%=m.get("title") %></td>
+						<td style='color:<%=m.get("color")%>'><%=m.get("amount") %></td>
+						<td style='color:<%=m.get("color")%>'><%=m.get("memo") %></td>
 					</tr>
 			<% 
 				}
