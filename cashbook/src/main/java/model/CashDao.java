@@ -44,7 +44,7 @@ public class CashDao {
 	public ArrayList<HashMap<String,Object>> selectCashByDate(String cashDate) throws Exception {
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3307/cashbook", "root", "java1234");
-		String sql = "SELECT ct.kind, ct.title, c.amount, c.memo, c.color "
+		String sql = "SELECT ct.kind, ct.title, c.amount, c.memo, c.color, c.cash_no cashNo "
 					+ "FROM cash c INNER JOIN category ct ON c.category_no = ct.category_no "
 					+ "WHERE c.cash_date LIKE ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
@@ -59,8 +59,38 @@ public class CashDao {
 			map.put("amount", rs.getInt("amount"));
 			map.put("memo", rs.getString("memo"));
 			map.put("color", rs.getString("color"));
+			map.put("cashNo", rs.getInt("cashNo"));
 			
 			list.add(map);
+		}
+		
+		conn.close();
+		
+		return list;
+	}
+	
+	// cashNo에 해당하는 정보들 가져오는 메소드
+	public ArrayList<HashMap<String,Object>> selectCashByNo(int cashNo) throws Exception {
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3307/cashbook", "root", "java1234");
+		String sql = "SELECT c.cash_date cashDate, c.amount, c.memo, c.color, ct.kind, ct.title "
+					+ "FROM cash c INNER JOIN category ct ON c.category_no = ct.category_no "
+					+ "WHERE c.cash_no=?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, cashNo);
+		ResultSet rs = stmt.executeQuery();
+		
+		ArrayList<HashMap<String,Object>> list = new ArrayList<>();
+		if(rs.next()) {
+			HashMap<String,Object> m = new HashMap<>();
+			m.put("cashDate",rs.getString("cashDate"));
+			m.put("amount",rs.getInt("amount"));
+			m.put("memo", rs.getString("memo"));
+			m.put("color", rs.getString("color"));
+			m.put("kind", rs.getString("kind"));
+			m.put("title", rs.getString("title"));
+			
+			list.add(m);
 		}
 		
 		conn.close();
@@ -79,6 +109,22 @@ public class CashDao {
 		stmt.setInt(3, c.getAmount());
 		stmt.setString(4, c.getMemo());
 		stmt.setString(5, c.getColor());
+		
+		stmt.executeUpdate();
+		
+		conn.close();
+	}
+	
+	// cash 정보 수정
+	public void updateCash(Cash c) throws Exception {
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3307/cashbook", "root", "java1234");
+		String sql = "update cash set cash_date=?, amount=?, memo=? where cash_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, c.getCashDate());
+		stmt.setInt(2, c.getAmount());
+		stmt.setString(3, c.getMemo());
+		stmt.setInt(4, c.getCashNo());
 		
 		stmt.executeUpdate();
 		
