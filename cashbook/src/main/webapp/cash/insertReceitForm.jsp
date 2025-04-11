@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
+	String ID = (String)(session.getAttribute("ID"));
+	if(ID == null){ // 로그아웃 상태 일때
+		response.sendRedirect("/cashbook/index.jsp");
+		return;
+	}
+	
 	int cashNo = Integer.valueOf(request.getParameter("cashNo"));
 	String kind = request.getParameter("kind");
 %>
