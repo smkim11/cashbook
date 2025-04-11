@@ -8,6 +8,9 @@
 	
 	CashDao cd = new CashDao();
 	ArrayList<HashMap<String,Object>> list = cd.selectCashByNo(cashNo);
+	
+	ReceitDao rd = new ReceitDao();
+	Receit r = rd.selectReceit(cashNo);
 %>
 <!DOCTYPE html>
 <html>
@@ -35,7 +38,16 @@
 		for(HashMap<String,Object> map : list){
 	%>
 	<a href="/cashbook/cash/updateCashForm.jsp?cashDate=<%=map.get("cashDate") %>&kind=<%=kind%>&title=<%=map.get("title") %>&amount=<%=map.get("amount") %>&memo=<%=map.get("memo") %>&cashNo=<%=cashNo%>">수정</a>||
-	<a href="/cashbook/cash/deleteCashForm.jsp?cashNo=<%=cashNo %>">삭제</a>
+	<a href="/cashbook/cash/deleteCashForm.jsp?cashNo=<%=cashNo %>&kind=<%=kind%>">삭제</a>||
+	<a href="/cashbook/cash/insertReceitForm.jsp?cashNo=<%=cashNo %>&kind=<%=kind%>">영수증 등록</a>
+	<%
+		if(r.getFileName()!=null){
+	%>
+			||<a href="/cashbook/cash/deleteReceitForm.jsp?cashNo=<%=cashNo %>&kind=<%=kind%>">영수증 삭제</a>
+	<% 
+		}
+	%>
+	
 			<table border ="1">
 				<tr>
 					<th>날짜</th>
@@ -57,5 +69,13 @@
 	<%
 		}
 	%>
+	<table border="1">
+		<tr>
+			<th>영수증</th>
+		</tr>
+		<tr>
+			<td><img src="/cashbook/upload/<%=r.getFileName() %>"></td>
+		</tr>
+	</table>
 </body>
 </html>
