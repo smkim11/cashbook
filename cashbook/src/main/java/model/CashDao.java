@@ -68,7 +68,7 @@ public class CashDao {
 		
 		return list;
 	}
-	
+		
 	// cashNo에 해당하는 정보들 가져오는 메소드
 	public ArrayList<HashMap<String,Object>> selectCashByNo(int cashNo) throws Exception {
 		Class.forName("com.mysql.cj.jdbc.Driver");
@@ -98,6 +98,25 @@ public class CashDao {
 		return list;
 	}
 	
+	// cashDate 하나만 가져오는 메소드
+	public Cash selectCashDate(int cashNo) throws Exception {
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3307/cashbook", "root", "java1234");
+		String sql = "select cash_date cashDate from cash where cash_no=?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, cashNo);
+		ResultSet rs = stmt.executeQuery();
+		
+		Cash c = new Cash();
+		if(rs.next()) {
+			c.setCashDate(rs.getString("cashDate"));
+		}
+		
+		conn.close();
+		
+		return c;
+	}
+	
 	// cash 추가
 	public void insertCash(Cash c) throws Exception {
 		Class.forName("com.mysql.cj.jdbc.Driver");
@@ -125,6 +144,19 @@ public class CashDao {
 		stmt.setInt(2, c.getAmount());
 		stmt.setString(3, c.getMemo());
 		stmt.setInt(4, c.getCashNo());
+		
+		stmt.executeUpdate();
+		
+		conn.close();
+	}
+	
+	// cash 삭제
+	public void deleteCash(int cashNo) throws Exception {
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3307/cashbook", "root", "java1234");
+		String sql = "delete from cash where cash_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, cashNo);
 		
 		stmt.executeUpdate();
 		
