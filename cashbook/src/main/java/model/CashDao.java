@@ -6,7 +6,7 @@ import dto.Cash;
 public class CashDao {
 	
 	// 해당하는 년, 월에 대한 정보
-	public ArrayList<HashMap<String,Object>> selectCash(int year, int month) throws ClassNotFoundException, SQLException {
+	public ArrayList<HashMap<String,Object>> selectCash(int year, int month) throws Exception {
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3307/cashbook", "root", "java1234");
 		String sql = "SELECT c.cash_no cashNO, c.category_no categoryNo, c.cash_date cashDate, "
@@ -38,6 +38,49 @@ public class CashDao {
 		conn.close();
 		
 		return list;
+	}
+	
+	// 특정 날짜에 해당하는 cash 상세정보
+	public ArrayList<HashMap<String,Object>> selectCashByDate(String cashDate) throws Exception {
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3307/cashbook", "root", "java1234");
+		String sql = "SELECT ct.kind, ct.title, c.amount, c.memo "
+					+ "FROM cash c INNER JOIN category ct ON c.category_no = ct.category_no "
+					+ "WHERE c.cash_date LIKE ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1,cashDate);
+		ResultSet rs = stmt.executeQuery();
 		
+		ArrayList<HashMap<String,Object>> list = new ArrayList<>();
+		while(rs.next()) {
+			HashMap<String,Object> map = new HashMap<>();
+			map.put("kind", rs.getString("kind"));
+			map.put("title", rs.getString("title"));
+			map.put("amount", rs.getInt("amount"));
+			map.put("memo", rs.getString("memo"));
+			
+			list.add(map);
+		}
+		
+		conn.close();
+		
+		return list;
+	}
+	
+	// cash 추가
+	public void insertCash(Cash c) throws Exception {
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3307/cashbook", "root", "java1234");
+		String sql = "insert into cash(category_no, cash_date, amount, memo, color) values(?,?,?,?,?)";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, c.getCategoryNo());
+		stmt.setString(2, c.getCashDate());
+		stmt.setInt(3, c.getAmount());
+		stmt.setString(4, c.getMemo());
+		stmt.setString(5, c.getColor());
+		
+		stmt.executeUpdate();
+		
+		conn.close();
 	}
 }
