@@ -16,6 +16,9 @@
 <title></title>
 </head>
 <body>
+<div>
+	<jsp:include page="/nav/nav.jsp"></jsp:include>
+</div><br>
 	<%
 		if(kind.equals("지출")){
 	%>

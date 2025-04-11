@@ -30,6 +30,9 @@
 <title></title>
 </head>
 <body>
+<div>
+	<jsp:include page="/nav/nav.jsp"></jsp:include>
+</div><br>
 	<h1>수입 지출 리스트</h1>
 	<a href="/cashbook/category/insertCategoryForm.jsp">추가</a>
 	<table>

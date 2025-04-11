@@ -41,7 +41,9 @@
 <title></title>
 </head>
 <body>
-	
+	<div>
+		<jsp:include page="/nav/nav.jsp"></jsp:include>
+	</div><br>
 	<h1><%=c.get(Calendar.YEAR) %>년 <%=c.get(Calendar.MONTH)+1 %>월</h1>
 	<div>
 	<a href="/cashbook/monthList.jsp?targetMonth=<%=c.get(Calendar.MONTH)-1%>">[이전달]</a>
@@ -70,7 +72,7 @@
 							String month = String.format("%02d", c.get(Calendar.MONTH) + 1);
 							String date = String.format("%02d", i-startBlank);
 					%>
-							<a href="/cashbook/dateList.jsp?cashDate=<%=c.get(Calendar.YEAR)%>-<%=month%>-<%=date %>"><%=i-startBlank %><br>
+							<a href="/cashbook/dateList.jsp?cashDate=<%=c.get(Calendar.YEAR)%>-<%=month%>-<%=date %>"><%=i-startBlank %></a><br>
 							<%
 								for(HashMap<String,Object> m : list){
 							%>
@@ -80,11 +82,11 @@
 											<%
 												if(m.get("kind").equals("지출")){
 											%>
-													<a href="/cashbook/cash/cashOne.jsp?cashNo=<%=m.get("cashNo")%>"><span style="color:red"><%=m.get("title")%><br><%=m.get("amount") %>원</span><br></a>
+													<span style="color:red"><%=m.get("title")%><br><%=m.get("amount") %>원</span><br>
 											<% 
 												}else{
 											%>
-													<a href="/cashbook/cash/cashOne.jsp?cashNo=<%=m.get("cashNo")%>"><span style="color:blue"><%=m.get("title")%><br><%=m.get("amount") %>원</span><br></a>
+													<span style="color:blue"><%=m.get("title")%><br><%=m.get("amount") %>원</span><br>
 											<% 
 												}
 											%>

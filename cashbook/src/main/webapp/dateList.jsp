@@ -21,6 +21,9 @@
 <title></title>
 </head>
 <body>
+<div>
+	<jsp:include page="/nav/nav.jsp"></jsp:include>
+</div><br>
 	<h1><%=cashDate %> 수입 지출</h1>
 	<form method="post" action="/cashbook/cash/insertCashForm.jsp">
 		<input type="hidden" name="cashDate" value="<%=cashDate%>">
@@ -40,7 +43,9 @@
 						<td style='color:<%=m.get("color")%>'><%=m.get("kind") %></td>
 						<td style='color:<%=m.get("color")%>'><%=m.get("title") %></td>
 						<td style='color:<%=m.get("color")%>'><%=m.get("amount") %></td>
-						<td style='color:<%=m.get("color")%>'><%=m.get("memo") %></td>
+						<td style='color:<%=m.get("color")%>'>
+							<a href="/cashbook/cash/cashOne.jsp?cashNo=<%=m.get("cashNo")%>&kind=<%=m.get("kind") %>"><%=m.get("memo") %></a>
+						</td>
 					</tr>
 			<% 
 				}
