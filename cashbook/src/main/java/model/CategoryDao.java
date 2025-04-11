@@ -30,6 +30,30 @@ public class CategoryDao {
 		return list;
 	}
 	
+	// kind종류에 따라 카테고리 번호와 제목을 가져옴
+	public ArrayList<Category> selectCategoryListByKind(String kind) throws Exception {
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3307/cashbook", "root", "java1234");
+		String sql = "select category_no categoryNo, title from category where kind=?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, kind);
+		ResultSet rs = stmt.executeQuery();
+		
+		ArrayList<Category> list = new ArrayList<>();
+		while(rs.next()) {
+			Category c = new Category();
+			c.setCategoryNo(rs.getInt("categoryNo"));
+			c.setTitle(rs.getString("title"));
+			
+			list.add(c);
+		}
+		
+		conn.close();
+		
+		return list;
+		
+	}
+	
 	// 번호에 해당하는 category정보
 	public Category selectCategoryOne(int cnum) throws ClassNotFoundException, SQLException {
 		Class.forName("com.mysql.cj.jdbc.Driver");
@@ -50,6 +74,7 @@ public class CategoryDao {
 		
 		return c;
 	}
+	
 	
 	// 전체 개수
 	public int totalCategory() throws ClassNotFoundException, SQLException {
