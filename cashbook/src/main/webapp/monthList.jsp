@@ -31,6 +31,7 @@
 	}
 	
 	CashDao cd = new CashDao();
+	
 	ArrayList<HashMap<String,Object>> list = cd.selectCash(Integer.valueOf(c.get(Calendar.YEAR)),Integer.valueOf(c.get(Calendar.MONTH)+1));
 %>
 <!DOCTYPE html>
@@ -65,7 +66,11 @@
 						if(i-startBlank>0 && i-startBlank<=lastDate){
 							
 					%>	
-							<%=i-startBlank %><br>
+					<%
+							String month = String.format("%02d", c.get(Calendar.MONTH) + 1);
+							String date = String.format("%02d", i-startBlank);
+					%>
+							<a href="/cashbook/dateList.jsp?cashDate=<%=c.get(Calendar.YEAR)%>-<%=month%>-<%=date %>"><%=i-startBlank %><br>
 							<%
 								for(HashMap<String,Object> m : list){
 							%>
@@ -75,11 +80,11 @@
 											<%
 												if(m.get("kind").equals("지출")){
 											%>
-													<a href="/cashbook/cashOne.jsp?cashDate=<%=m.get("cashDate")%>"><span style="color:red"><%=m.get("title")%><br><%=m.get("amount") %>원</span><br></a>
+													<a href="/cashbook/cash/cashOne.jsp?cashNo=<%=m.get("cashNo")%>"><span style="color:red"><%=m.get("title")%><br><%=m.get("amount") %>원</span><br></a>
 											<% 
 												}else{
 											%>
-													<a href="/cashbook/cashOne.jsp?cashDate=<%=m.get("cashDate")%>"><span style="color:blue"><%=m.get("title")%><br><%=m.get("amount") %>원</span><br></a>
+													<a href="/cashbook/cash/cashOne.jsp?cashNo=<%=m.get("cashNo")%>"><span style="color:blue"><%=m.get("title")%><br><%=m.get("amount") %>원</span><br></a>
 											<% 
 												}
 											%>
