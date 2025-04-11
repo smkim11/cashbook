@@ -3,6 +3,12 @@
 <%@ page import="model.*"%>
 <%@ page import="dto.*"%>
 <%
+	String ID = (String)(session.getAttribute("ID"));
+	if(ID == null){ // 로그아웃 상태 일때
+		response.sendRedirect("/cashbook/index.jsp");
+		return;
+	}
+	
 	String cashDate = request.getParameter("cashDate");
 	
 	CashDao cd = new CashDao();

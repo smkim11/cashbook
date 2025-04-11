@@ -3,6 +3,12 @@
 <%@ page import="model.*"%>
 <%@ page import="dto.*"%>
 <%
+	String ID = (String)(session.getAttribute("ID"));
+	if(ID == null){ // 로그아웃 상태 일때
+		response.sendRedirect("/cashbook/index.jsp");
+		return;
+	}
+	
 	// dateList.jsp -> 수입 지출 입력 버튼(0000-00-00) ->
 	String cashDate = request.getParameter("cashDate");
 	
