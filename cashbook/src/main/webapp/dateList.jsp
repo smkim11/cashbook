@@ -17,6 +17,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style>
+	span{
+	font-size:30px
+	}
+</style>
 <meta charset="UTF-8">
 <title></title>
 </head>
@@ -35,6 +40,7 @@
 			<th>제목</th>
 			<th>가격</th>
 			<th>메모</th>
+			<th>영수증</th>
 		</tr>
 			<% 
 				for(HashMap<String,Object> m : list){
@@ -45,6 +51,21 @@
 						<td style='color:<%=m.get("color")%>'><%=m.get("amount") %></td>
 						<td style='color:<%=m.get("color")%>'>
 							<a href="/cashbook/cash/cashOne.jsp?cashNo=<%=m.get("cashNo")%>&kind=<%=m.get("kind") %>"><%=m.get("memo") %></a>
+						</td>
+						<td>
+							<%
+								ReceitDao rd = new ReceitDao();
+								int receitCount = rd.countReceit((Integer)(m.get("cashNo")));
+								if(receitCount==0){
+							%>
+									<span>&#128581;&#127995;</span>
+							<% 
+								}else{
+							%>
+									<span>&#128582;&#127995;</span>
+							<% 
+								}
+							%>
 						</td>
 					</tr>
 			<% 
