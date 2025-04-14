@@ -46,21 +46,186 @@
 <html>
 <head>
 <style>
-	span{
-	font-size:14px
+	body {
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		margin: 20px;
+		background-color: #f8fbff;
 	}
-	#table1{
-		align:right;
+
+	h1 {
+		color: #0A9AE0;
+	}
+
+	a {
+		text-decoration: none;
+		color: #0A9AE0;
+		font-weight: bold;
+	}
+
+	.container {
+		display: flex;
+		gap: 40px;
+		align-items: flex-start;
+	}
+
+	.calendar {
+		flex: 2;
+	}
+
+	.stats {
+		flex: 1;
+	}
+
+	.table, .table2 {
+		border-collapse: collapse;
+		width: 100%;
+		background-color: #fff;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+		border-radius: 8px;
+		overflow: hidden;
+	}
+
+	.table th, .table td,
+	.table2 th, .table2 td {
+		border: 1px solid #cce6ff;
+		padding: 8px;
+		text-align: center;
+	}
+
+	.table th {
+		background-color: #e6f3ff;
+	}
+
+	.table2 th {
+		background-color: #d6efff;
+		color: #0A9AE0;
+	}
+
+	.table2 td {
+		background-color: #f7fbff;
+	}
+
+	span {
+		font-size: 13px;
+	}
+	.calendar-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin: 20px auto;
+		width: 80%;
+		background-color: #f5f5f5;
+		border-radius: 10px;
+		padding: 16px 24px;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	}
+
+	.calendar-header h1 {
+		font-size: 24px;
+		color: #333;
+		margin: 0;
+	}
+
+	.nav-button {
+		background-color: #0A9AE0;
+		color: #fff;
+		text-decoration: none;
+		padding: 8px 16px;
+		border-radius: 6px;
+		font-weight: bold;
+		transition: background-color 0.3s;
+	}
+
+	.nav-button:hover {
+		background-color: #0077b6;
 	}
 </style>
 <meta charset="UTF-8">
 <title></title>
 </head>
 <body>
-	<div>
-		<jsp:include page="/nav/nav.jsp"></jsp:include>
-	</div><br>
-	<table id="talbe1" border="1" align="right">
+<jsp:include page="/nav/nav.jsp" />
+	<div class="page-content">
+
+<div class="container">
+	<div class="calendar">
+	<div class="calendar-header">
+		<a class="nav-button" href="/cashbook/monthList.jsp?targetMonth=<%=c.get(Calendar.MONTH)-1%>">◀</a>
+		<h1><%=c.get(Calendar.YEAR) %>년 <%=c.get(Calendar.MONTH)+1 %>월</h1>
+		<a class="nav-button" href="/cashbook/monthList.jsp?targetMonth=<%=c.get(Calendar.MONTH)+1%>">▶</a>
+	</div>
+	<table class="table">
+		<tr>
+			<th style="color:red";>일</th>
+			<th>월</th>
+			<th>화</th>
+			<th>수</th>
+			<th>목</th>
+			<th>금</th>
+			<th style="color:blue";>토</th>
+		</tr>
+		<tr>
+			<%
+				for(int i=1;i<=totalCell;i++){
+			%>
+					<td style="height:80px; vertical-align:top; text-align:right;">
+					<%
+						if(i-startBlank>0 && i-startBlank<=lastDate){
+							
+					%>	
+					<%
+							String mon = String.format("%02d", c.get(Calendar.MONTH) + 1);
+							String date = String.format("%02d", i-startBlank);
+					%>
+							<a href="/cashbook/dateList.jsp?cashDate=<%=c.get(Calendar.YEAR)%>-<%=mon%>-<%=date %>"><%=i-startBlank %></a><br>
+							<%
+								for(HashMap<String,Object> m : list){
+							%>
+									<%
+										if(Integer.valueOf(String.valueOf(m.get("cashDate")).substring(8))==i-startBlank){
+									%>
+											<%
+												if(m.get("kind").equals("지출")){
+											%>
+													<span style="color:red"><%=m.get("title")%><br><%=m.get("amount") %>원</span><br>
+											<% 
+												}else{
+											%>
+													<span style="color:blue"><%=m.get("title")%><br><%=m.get("amount") %>원</span><br>
+											<% 
+												}
+											%>
+											
+									<% 
+										}
+									%>
+							<% 
+								}
+							%>
+							
+								
+					<% 
+						}else{
+					%>
+							<%="" %>
+					<% 
+						}
+					%>
+					</td>
+				<%
+					if(i%7==0){
+				%>
+						</tr><tr>
+				<% 
+					}
+				%>
+			<% 
+				}
+			%>
+		</table>
+	</div>
+	<div class="stats">
+	<table class="table2">
 		<tr>
 			<th>수입/지출</th>
 			<th>개수</th>
@@ -131,80 +296,8 @@
 				}
 			%>
 	</table>
-	
-	<h1><%=c.get(Calendar.YEAR) %>년 <%=c.get(Calendar.MONTH)+1 %>월</h1>
-	<div>
-	<a href="/cashbook/monthList.jsp?targetMonth=<%=c.get(Calendar.MONTH)-1%>">[이전달]</a>
-	<a href="/cashbook/monthList.jsp?targetMonth=<%=c.get(Calendar.MONTH)+1%>">[다음달]</a>
 	</div>
-	<table border="1" width="80%">
-		<tr>
-			<th style="color:red";>일</th>
-			<th>월</th>
-			<th>화</th>
-			<th>수</th>
-			<th>목</th>
-			<th>금</th>
-			<th style="color:blue";>토</th>
-		</tr>
-		<tr>
-			<%
-				for(int i=1;i<=totalCell;i++){
-			%>
-					<td style="width:100px; height:80px; vertical-align:top; text-align:right;">
-					<%
-						if(i-startBlank>0 && i-startBlank<=lastDate){
-							
-					%>	
-					<%
-							String mon = String.format("%02d", c.get(Calendar.MONTH) + 1);
-							String date = String.format("%02d", i-startBlank);
-					%>
-							<a href="/cashbook/dateList.jsp?cashDate=<%=c.get(Calendar.YEAR)%>-<%=mon%>-<%=date %>"><%=i-startBlank %></a><br>
-							<%
-								for(HashMap<String,Object> m : list){
-							%>
-									<%
-										if(Integer.valueOf(String.valueOf(m.get("cashDate")).substring(8))==i-startBlank){
-									%>
-											<%
-												if(m.get("kind").equals("지출")){
-											%>
-													<span style="color:red"><%=m.get("title")%><br><%=m.get("amount") %>원</span><br>
-											<% 
-												}else{
-											%>
-													<span style="color:blue"><%=m.get("title")%><br><%=m.get("amount") %>원</span><br>
-											<% 
-												}
-											%>
-											
-									<% 
-										}
-									%>
-							<% 
-								}
-							%>
-							
-								
-					<% 
-						}else{
-					%>
-							<%="" %>
-					<% 
-						}
-					%>
-					</td>
-				<%
-					if(i%7==0){
-				%>
-						</tr><tr>
-				<% 
-					}
-				%>
-			<% 
-				}
-			%>
-		</table>
+</div>
+</div>
 </body>
 </html>

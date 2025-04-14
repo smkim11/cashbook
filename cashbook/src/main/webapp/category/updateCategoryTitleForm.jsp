@@ -17,42 +17,87 @@
 <!DOCTYPE html>
 <html>
 <head>
+<!-- Latest compiled and minified CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Latest compiled JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<style>
+	body {
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		background-color: #f9fcff;
+		margin: 0;
+		text-align: center;
+	}
+
+	.page-content {
+		padding-top: 70px;
+	}
+
+	h1 {
+		text-align: center;
+		color: #0A9AE0;
+		margin-bottom: 30px;
+	}
+
+	.container {
+		max-width: 900px;
+		margin: auto;
+	}
+
+	.table {
+		background-color: #fff;
+		border-radius: 8px;
+		overflow: hidden;
+		box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+		margin:auto;
+	}
+
+	a {
+		text-decoration: none;
+		color: #0A9AE0;
+		font-weight: bold;
+	}
+</style>
 <meta charset="UTF-8">
 <title></title>
 </head>
 <body>
-	<h1>제목 수정</h1>
-	<form action="/cashbook/category/updateCategoryTitleAction.jsp" method="post">
-		<table>
-			<tr>
-				<th>번호</th>
-				<td><input type="text" name="cnum" value="<%=cnum%>" readonly></td>
-			</tr>
-			<tr>
-				<th>종류</th>
-				<td>
-					<%
-						if(c.getKind().equals("수입")){
-					%>
-							<input type="radio" name="kind" value="수입" checked> 수입
-							<input type="radio" name="kind" value="지출"> 지출
-					<% 
-						}else{
-					%>
-							<input type="radio" name="kind" value="수입"> 수입
-							<input type="radio" name="kind" value="지출" checked> 지출
-					<% 
-						}
-					%>
-					
-				</td>
-			</tr>
-			<tr>
-				<th>제목</th>
-				<td><input type="text" name="title" value="<%=c.getTitle()%>"></td>
-			</tr>
-		</table>
-		<button type="submit">수정</button>
-	</form>
+<jsp:include page="/nav/nav.jsp" />
+	<div class="page-content">
+		<h1>제목 수정</h1>
+		<form action="/cashbook/category/updateCategoryTitleAction.jsp" method="post">
+			<table>
+				<tr>
+					<th>번호</th>
+					<td><input type="text" name="cnum" value="<%=cnum%>" class="form-control mt-3" readonly></td>
+				</tr>
+				<tr>
+					<th>종류</th>
+					<td>
+						<%
+							if(c.getKind().equals("수입")){
+						%>
+								<input class="form-check-input" type="radio" name="kind" value="수입" checked> 수입
+								<input class="form-check-input" type="radio" name="kind" value="지출"> 지출
+						<% 
+							}else{
+						%>
+								<input class="form-check-input" type="radio" name="kind" value="수입"> 수입
+								<input class="form-check-input" type="radio" name="kind" value="지출" checked> 지출
+						<% 
+							}
+						%>
+						
+					</td>
+				</tr>
+				<tr>
+					<th>제목</th>
+					<td><input type="text" name="title" value="<%=c.getTitle()%>" class="form-control"></td>
+				</tr>
+			</table>
+			<button type="submit" class="btn btn-primary">수정</button>
+		</form>
+	</div>
 </body>
 </html>
