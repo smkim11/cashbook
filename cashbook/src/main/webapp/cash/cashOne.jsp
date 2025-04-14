@@ -43,7 +43,7 @@
 	<%
 		for(HashMap<String,Object> map : list){
 	%>
-	<a href="/cashbook/cash/updateCashForm.jsp?cashDate=<%=map.get("cashDate") %>&kind=<%=kind%>&title=<%=map.get("title") %>&amount=<%=map.get("amount") %>&memo=<%=map.get("memo") %>&cashNo=<%=cashNo%>">수정</a>||
+	<a href="/cashbook/cash/updateCashForm.jsp?cashNo=<%=cashNo%>">수정</a>||
 	<a href="/cashbook/cash/deleteCashForm.jsp?cashNo=<%=cashNo %>&kind=<%=kind%>">삭제</a>||
 	<a href="/cashbook/cash/insertReceitForm.jsp?cashNo=<%=cashNo %>&kind=<%=kind%>">영수증 등록</a>
 	<%
