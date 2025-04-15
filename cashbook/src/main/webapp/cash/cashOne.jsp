@@ -40,6 +40,7 @@
 	h1 {
 		text-align: center !important;
 		color: #0A9AE0 !important;
+		margin-bottom: 30px !important;
 	}
 
 	.table {
@@ -128,7 +129,7 @@
 			<th>영수증</th>
 		</tr>
 		<tr>
-			<td><img src="/cashbook/upload/<%=r.getFileName() %>" style="height:380px"></td>
+			<td><img src="/cashbook/upload/<%=r.getFileName() %>" style="height:360px" ></td>
 		</tr>
 	</table>
 </div>
