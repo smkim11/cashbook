@@ -13,7 +13,7 @@
 <style>
 	body {
 		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-		background-color: #f0f8ff;
+		background-color: #f9fcff;
 		padding: 40px;
 		text-align: center;
 	}
@@ -46,6 +46,7 @@
 	}else{
 %>
 		<%=ID %>님 환영합니다.
+		&nbsp;
 		<a href="/cashbook/login/logout.jsp">로그아웃</a>
 <% 
 	}

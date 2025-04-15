@@ -33,9 +33,9 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <style>
 	body {
-		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-		background-color: #f9fcff;
-		margin: 0;
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+		background-color: #f9fcff !important;
+		margin: 0 !important;
 	}
 
 	.page-content {
@@ -43,9 +43,9 @@
 	}
 
 	h1 {
-		text-align: center;
-		color: #0A9AE0;
-		margin-bottom: 30px;
+		text-align: center !important;
+		color: #0A9AE0 !important;
+		margin-bottom: 30px !important;
 	}
 
 	.container {
@@ -61,9 +61,9 @@
 	}
 
 	a {
-		text-decoration: none;
+		text-decoration: none !important;
 		color: #0A9AE0;
-		font-weight: bold;
+		font-weight: bold !important;
 	}
 </style>
 
@@ -109,8 +109,8 @@
 		<%
 			if(currentPage>1){
 		%>	
-				<a class="page-link d-inline-block" href="/cashbook/category/categoryList.jsp?currentPage=1">[처음]</a>
-				<a class="page-link d-inline-block" href="/cashbook/category/categoryList.jsp?currentPage=<%=currentPage-1%>">[이전]</a>
+				<a class="page-link d-inline-block" href="/cashbook/category/categoryList.jsp?currentPage=1">[<<]</a>
+				<a class="page-link d-inline-block" href="/cashbook/category/categoryList.jsp?currentPage=<%=currentPage-1%>">[<]</a>
 		<% 
 			}
 		%>
@@ -118,8 +118,8 @@
 		<%
 			if(currentPage<lastPage){
 		%>	
-				<a class="page-link d-inline-block" href="/cashbook/category/categoryList.jsp?currentPage=<%=currentPage+1%>">[다음]</a>
-				<a class="page-link d-inline-block" href="/cashbook/category/categoryList.jsp?currentPage=<%=lastPage%>">[마지막]</a>
+				<a class="page-link d-inline-block" href="/cashbook/category/categoryList.jsp?currentPage=<%=currentPage+1%>">[>]</a>
+				<a class="page-link d-inline-block" href="/cashbook/category/categoryList.jsp?currentPage=<%=lastPage%>">[>>]</a>
 		<% 
 			}
 		%>

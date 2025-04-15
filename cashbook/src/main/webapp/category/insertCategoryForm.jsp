@@ -16,44 +16,33 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <style>
 	body {
-		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-		background-color: #f9fcff;
-		margin: 0;
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+		background-color: #f9fcff !important;
 	}
-
-	.page-content {
-		padding-top: 70px;
-	}
-
 	h1 {
 		text-align: center;
-		color: #0A9AE0;
-		margin-bottom: 30px;
+		color: #0A9AE0 !important;
 	}
 
-	.container {
-		max-width: 900px;
-		margin: auto;
-	}
-	table{
-		margin:auto;
-	}
-	
-	button{
-		margin-top: 20px;
-	}
 	.table {
 		background-color: #fff;
 		border-radius: 8px;
 		overflow: hidden;
 		box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-		margin-bottom: 20px; 
+		margin:auto;
+		margin-top:30px;
+		
 	}
 
 	a {
 		text-decoration: none;
 		color: #0A9AE0;
 		font-weight: bold;
+	}
+	.form-button {
+		position: relative;
+		width: fit-content;
+		margin: auto;
 	}
 </style>
 <meta charset="UTF-8">
@@ -64,7 +53,7 @@
 	<div class="page-content">
 		<h1>수입 지출 리스트 추가</h1>
 		<form method="post" action="/cashbook/category/insertCategoryAction.jsp">
-		<table class="w-25 table table-hover">
+		<table class="w-25 table table-bordered text-center align-middle">
 			<tr>
 				<th>종류</th>
 				<td>
@@ -77,7 +66,9 @@
 				<td><input type="text" name="title" class="form-control"></td>
 			</tr>
 		</table>
-		<button type="submit" class="btn btn-primary">추가</button>
+		<div class="form-button">
+			<button type="submit" class="btn btn-primary">추가</button>
+		</div>
 		</form>
 	</div>
 </body>
