@@ -2,6 +2,7 @@
 <%@ page import="java.util.*" %>
 <%@ page import="model.*"%>
 <%@ page import="dto.*"%>
+<%@ page import="java.text.NumberFormat"%>
 <%
 	String ID = (String)(session.getAttribute("ID"));
 	if(ID == null){ // 로그아웃 상태 일때
@@ -40,26 +41,27 @@
 	ArrayList<HashMap<String,Object>> totalList = dd.selectTotalData();
 	ArrayList<HashMap<String,Object>> totalYearList = dd.selectYearData(year);
 	ArrayList<HashMap<String,Object>> totalMonthList = dd.selectMonthData(year,month);
-	ArrayList<HashMap<String,Object>> totalMonthListByYear = dd.selectMonthDataByYear(year);
+	
+	NumberFormat numberFormat = NumberFormat.getInstance();
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <style>
 	body {
-		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
 		margin: 20px;
-		background-color: #f8fbff;
+		background-color: #f8fbff !important;
 	}
 
 	h1 {
-		color: #0A9AE0;
+		color: #0A9AE0 !important;
 	}
 
 	a {
-		text-decoration: none;
+		text-decoration: none !important;
 		color: #0A9AE0;
-		font-weight: bold;
+		font-weight: bold !important;
 	}
 
 	.container {
@@ -74,6 +76,7 @@
 
 	.stats {
 		flex: 1;
+		margin-top: 111px;
 	}
 
 	.table, .table2 {
@@ -183,19 +186,25 @@
 							%>
 									<%
 										if(Integer.valueOf(String.valueOf(m.get("cashDate")).substring(8))==i-startBlank){
+										ArrayList<HashMap<String,Object>> sumList = cd.totalAmountByDate((String)(m.get("cashDate")), (String)(m.get("kind")));
+										for(HashMap<String,Object> m2 : sumList){
 									%>
 											<%
 												if(m.get("kind").equals("지출")){
 											%>
-													<span style="color:red"><%=m.get("title")%><br><%=m.get("amount") %>원</span><br>
+												
+												<span style="color:red"><%=numberFormat.format(m2.get("sum")) %>원</span><br>
+													
 											<% 
 												}else{
 											%>
-													<span style="color:blue"><%=m.get("title")%><br><%=m.get("amount") %>원</span><br>
+												<span style="color:blue"><%=numberFormat.format(m2.get("sum"))%>원</span><br>
 											<% 
 												}
 											%>
-											
+										<% 	
+													}
+												%>
 									<% 
 										}
 									%>
@@ -227,70 +236,49 @@
 	<div class="stats">
 	<table class="table2">
 		<tr>
-			<th>수입/지출</th>
-			<th>개수</th>
-			<th>총액</th>
+			<th>전체통계</th>
+			<th>종류</th>
+			<th>총액(원)</th>
 		</tr>
 			<%
 				for(HashMap<String,Object> m : totalList){
 			%>
 					<tr>
+						<td>.</td>
 						<td><%=m.get("kind")%></td>
-						<td><%=m.get("cnt")%></td>
-						<td><%=m.get("total")%></td>
+						<td><%=numberFormat.format(m.get("total"))%></td>
 					</tr>
 			<% 
 				}
 			%>
 		<tr>
-			<th>연도</th>
-			<th>수입/지출</th>
-			<th>개수</th>
-			<th>총액</th>
+			<th>현재년도</th>
+			<th>종류</th>
+			<th>총액(원)</th>
 		</tr>
 			<%
 				for(HashMap<String,Object> m : totalYearList){
 			%>
 					<tr>
-						<td><%=m.get("year")%></td>
+						<td><%=m.get("year")%>년</td>
 						<td><%=m.get("kind")%></td>
-						<td><%=m.get("cnt")%></td>
-						<td><%=m.get("total")%></td>
+						<td><%=numberFormat.format(m.get("total"))%></td>
 					</tr>
 			<% 
 				}
 			%>
 			<tr>
-			<th>월</th>
-			<th>수입/지출</th>
-			<th>개수</th>
-			<th>총액</th>
+			<th>현재 월</th>
+			<th>종류</th>
+			<th>총액(원)</th>
 		</tr>
 			<%
 				for(HashMap<String,Object> m : totalMonthList){
 			%>
 					<tr>
-						<td><%=m.get("month")%></td>
+						<td><%=m.get("month")%>월</td>
 						<td><%=m.get("kind")%></td>
-						<td><%=m.get("cnt")%></td>
-						<td><%=m.get("total")%></td>
-					</tr>
-			<% 
-				}
-			%>
-			<th>년.월</th>
-			<th>수입/지출</th>
-			<th>개수</th>
-			<th>총액</th>
-		</tr>
-			<%
-				for(HashMap<String,Object> m : totalMonthListByYear){
-			%>
-					<tr>
-						<td><%=year%>.<%=m.get("month")%></td>
-						<td><%=m.get("kind")%></td>
-						<td><%=m.get("cnt")%></td>
-						<td><%=m.get("total")%></td>
+						<td><%=numberFormat.format(m.get("total"))%></td>
 					</tr>
 			<% 
 				}
