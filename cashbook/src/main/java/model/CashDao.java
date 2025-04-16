@@ -117,6 +117,36 @@ public class CashDao {
 		return c;
 	}
 	
+	// 날짜별 수입과 지출 총합을 보여주는 메소드
+	public ArrayList<HashMap<String,Object>> totalAmountByDate(int year, int month) throws Exception {
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3307/cashbook", "root", "java1234");
+		String sql ="SELECT SUM(c.amount) SUM , ct.kind, c.cash_date cashDate "
+				  + "FROM cash c "
+				  + "inner join category ct ON c.category_no = ct.category_no "
+				  + "where YEAR(c.cash_date)=? and MONTH(c.cash_date)=? "
+			      + "GROUP BY ct.kind, c.cash_date";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, year);
+		stmt.setInt(2, month);
+		
+		ResultSet rs = stmt.executeQuery();
+		
+		ArrayList<HashMap<String,Object>> list = new ArrayList<>();
+		while(rs.next()) {
+			HashMap<String,Object> m = new HashMap<>();
+			m.put("sum", rs.getInt("sum"));
+			m.put("kind", rs.getString("kind"));
+			m.put("cashDate", rs.getString("cashDate"));
+			
+			list.add(m);
+		}
+		
+		conn.close();
+		
+		return list;
+		
+	}
 	// cash 추가
 	public void insertCash(Cash c) throws Exception {
 		Class.forName("com.mysql.cj.jdbc.Driver");

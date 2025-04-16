@@ -33,7 +33,7 @@
 	
 	CashDao cd = new CashDao();
 	
-	ArrayList<HashMap<String,Object>> list = cd.selectCash(Integer.valueOf(c.get(Calendar.YEAR)),Integer.valueOf(c.get(Calendar.MONTH)+1));
+	ArrayList<HashMap<String,Object>> list = cd.totalAmountByDate(Integer.valueOf(c.get(Calendar.YEAR)),Integer.valueOf(c.get(Calendar.MONTH)+1));
 	
 	int year = c.get(Calendar.YEAR);
 	int month = c.get(Calendar.MONTH)+1;
@@ -182,37 +182,33 @@
 					%>
 							<a href="/cashbook/dateList.jsp?cashDate=<%=c.get(Calendar.YEAR)%>-<%=mon%>-<%=date %>"><%=i-startBlank %></a><br>
 							<%
+								String expense = "-";
+								String income = "-";
 								for(HashMap<String,Object> m : list){
 							%>
 									<%
 										if(Integer.valueOf(String.valueOf(m.get("cashDate")).substring(8))==i-startBlank){
-										ArrayList<HashMap<String,Object>> sumList = cd.totalAmountByDate((String)(m.get("cashDate")), (String)(m.get("kind")));
-										for(HashMap<String,Object> m2 : sumList){
+											
 									%>
 											<%
-												if(m.get("kind").equals("지출")){
-											%>
-												
-												<span style="color:red"><%=numberFormat.format(m2.get("sum")) %>원</span><br>
-													
+												if(m.get("kind").equals("지출") && m.get("sum") != null){
+											%>	
+														<%expense =numberFormat.format(m.get("sum"))+"원";%>
 											<% 
-												}else{
+												}else if (m.get("kind").equals("수입") && m.get("sum") != null){
 											%>
-												<span style="color:blue"><%=numberFormat.format(m2.get("sum"))%>원</span><br>
+														<%income =numberFormat.format(m.get("sum"))+"원";%>
 											<% 
 												}
 											%>
-										<% 	
-													}
-												%>
 									<% 
 										}
 									%>
 							<% 
 								}
-							%>
-							
-								
+							%>	
+							<span style="color:blue"><%=income %></span><br>
+							<span style="color:red"><%=expense %></span><br>
 					<% 
 						}else{
 					%>
